@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+	<property name="DEV_HOME" value="/var/log" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+			%d{yyyy-MM-dd HH:mm:ss} %class{0} %level : %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+	
+	
+	<appender name="FILE-AUDIT"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${DEV_HOME}/dslinfo.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+			%d{yyyy-MM-dd HH:mm:ss} %class{0} %level : %msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${DEV_HOME}/dslinfo.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+
+	<logger name="connectProcess" level="debug">
+				<appender-ref ref="STDOUT" />
+
+	</logger>
+	<logger name="SQL_LOGGER" level="debug">
+				<appender-ref ref="STDOUT" />
+
+	</logger>
+	<root level="trace">
+		<appender-ref ref="FILE-AUDIT" />
+	</root>  
+  
+</configuration>
